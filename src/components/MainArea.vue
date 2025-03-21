@@ -13,11 +13,17 @@
         <option value="5">5 threads</option>
       </SelectInput>
     </div>
+
+    <div class="item">
+      <label for="color-templates">Colors</label>
+      <ColorTemplates />
+    </div>
   </section>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import ColorTemplates from './ColorTemplates.vue';
 import SelectInput from './form/SelectInput.vue';
 import TextInput from './form/TextInput.vue';
 
