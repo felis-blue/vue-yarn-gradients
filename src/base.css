@@ -1,0 +1,88 @@
+/* ---------------------------- */
+/* COLOR AND SPACING PROPERTIES */
+/* ---------------------------- */
+
+:root {
+  --color-background: #e8e8e8;
+  --color-background-accent: #d8d8d8;
+  --color-text: #484848;
+  --color-text-accent: #686868;
+  --color-shadow: #a8a8a8;
+}
+
+/* ---- */
+/* FONT */
+/* ---- */
+
+@font-face {
+  font-family: Ysabeau;
+  src: url(fonts/Ysabeau-Regular.ttf);
+}
+
+@font-face {
+  font-family: Ysabeau;
+  src: url(fonts/Ysabeau-ExtraBold.ttf);
+  font-weight: bold;
+}
+
+/* ------------ */
+/* STYLE RESETS */
+/* ------------ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+select {
+  /* reset native ui control styles, including removing the default dropdown arrow */
+  appearance: none;
+  /* additional resets */
+  background: none;
+  font: inherit;
+  color: inherit;
+
+  cursor: pointer;
+}
+
+button {
+  /* reset native ui control styles */
+  appearance: none;
+  /* additional resets */
+  background: none;
+  font: inherit;
+  color: inherit;
+  padding: 0;
+
+  cursor: pointer;
+}
+
+input {
+  /* reset native ui control styles */
+  appearance: none;
+  /* additional resets */
+  background: none;
+  font: inherit;
+  color: inherit;
+}
+
+html {
+  font-family: 'Ysabeau', sans-serif;
+  font-variant-numeric: lining-nums;
+  background-color: var(--color-background-accent);
+  color: var(--color-text);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+#app {
+  max-width: 1200px;
+  min-width: 320px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  border-radius: 0.5em;
+  background-color: var(--color-background);
+  box-shadow: 1px 1px 8px var(--color-shadow);
+}
