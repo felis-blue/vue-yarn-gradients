@@ -77,7 +77,12 @@ html {
   line-height: 1.6;
 }
 
+body {
+  margin: .75rem;
+}
+
 #app {
+  container-type: inline-size;
   max-width: 1200px;
   min-width: 320px;
   margin: 0 auto;
@@ -85,4 +90,17 @@ html {
   border-radius: 0.5em;
   background-color: var(--color-background);
   box-shadow: 1px 1px 8px var(--color-shadow);
+}
+
+h1 {
+  font-size: calc(1.6rem + 1cqi);
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.2rem;
+}
+
+label {
+  font-weight: bold;
 }
