@@ -4,11 +4,13 @@
   </header>
   <main>
     <InfoBox />
+    <MainArea />
   </main>
 </template>
 
 <script setup lang="ts">
 import InfoBox from './components/InfoBox.vue';
+import MainArea from './components/MainArea.vue';
 </script>
 
 <style scoped>
