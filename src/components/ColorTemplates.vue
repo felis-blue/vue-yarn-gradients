@@ -7,7 +7,7 @@
       class="color color-template"
       :class="[color.textColor, color.hueGroupStart ? 'hue-group-start' : '']"
       :style="color.hex ? `--color: ${color.hex};` : ''"
-      @click="handleTemplateClick(color)"
+      @click="$emit('updateColor', color)"
     >
       {{ color.name }}
     </button>
@@ -15,11 +15,8 @@
 </template>
 
 <script setup lang="ts">
-import { colors, type Color } from '@/data/colors';
-
-function handleTemplateClick(color: Color) {
-  console.log(color);
-}
+import { colors } from '@/data/colors';
+defineEmits(['updateColor']);
 </script>
 
 <style scoped>
@@ -29,16 +26,6 @@ function handleTemplateClick(color: Color) {
   grid-template-columns: repeat(auto-fit, minmax(14ch, 1fr));
   align-items: end;
   gap: 0.2em;
-}
-
-.color {
-  width: 100%;
-  height: 1.3em;
-  border: 1px solid var(--color, var(--color-text-accent));
-  border-radius: 100vw;
-  background-color: var(--color, transparent);
-
-  box-shadow: 1px 1px 4px -1px var(--color-shadow);
 }
 
 .color-template {
