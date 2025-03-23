@@ -23,12 +23,18 @@
       <label for="yarn-colors">Colorway</label>
       <ColorWay :segments="segments" @update-focus="updateFocus" />
     </div>
+
+    <div class="item">
+      <label for="pattern">Pattern</label>
+      <ColorPattern :segments="segments" />
+    </div>
   </section>
 </template>
 
 <script setup lang="ts">
 import { type Color } from '@/data/colors';
 import { onMounted, ref, watch, type Ref } from 'vue';
+import ColorPattern from './ColorPattern.vue';
 import ColorTemplates from './ColorTemplates.vue';
 import ColorWay from './ColorWay.vue';
 import SelectInput from './form/SelectInput.vue';
