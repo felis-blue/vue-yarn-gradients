@@ -6,6 +6,12 @@ export interface Color {
   hueGroupStart: boolean;
 }
 
+export function findColor(colorNumber: string) {
+  return colors.find((color) => color.colorNumber === colorNumber);
+}
+
+export const noColor: Color = { name: 'Remove color', colorNumber: '000', hex: null, textColor: 'dark', hueGroupStart: true };
+
 export const colors = [
   // group 1: neutral
   { name: 'weiß', colorNumber: '005', hex: '#F8F8F9', textColor: 'dark', hueGroupStart: false } as Color,
@@ -195,5 +201,5 @@ export const colors = [
   { name: 'chianti', colorNumber: '470', hex: '#3C242D', textColor: 'light', hueGroupStart: false } as Color,
 
   // group 11: remove
-  { name: 'Remove color', colorNumber: '000', hex: null, textColor: 'dark', hueGroupStart: true } as Color,
+  noColor,
 ];

@@ -24,7 +24,7 @@
               <template v-for="(segment, threadNo) in randomizeSegments(threadsegment)" :key="threadNo">
                 <use
                   :href="`#path-${threadCount}-${threadNo}`"
-                  :fill="segment.color && segment.color.hex ? segment.color.hex : undefined"
+                  :fill="segment.color.hex ? segment.color.hex : undefined"
                   :x="(col - 1) * (templateWidth + templateSpacingWidth)"
                   :y="(segmentNo * rowRepeats + (row - 1)) * (templateHeight + templateSpacingHeight)"
                 ></use>

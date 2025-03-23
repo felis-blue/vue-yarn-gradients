@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { type Color } from '@/data/colors';
+import { noColor, type Color } from '@/data/colors';
 import { onMounted, ref, watch, type Ref } from 'vue';
 import ActionButtons from './ActionButtons.vue';
 import ColorPattern from './ColorPattern.vue';
@@ -45,7 +45,7 @@ import TextInput from './form/TextInput.vue';
 
 export interface ColorSegment {
   focus: boolean;
-  color?: Color;
+  color: Color;
 }
 
 const segmentCount = ref(17);
@@ -65,7 +65,7 @@ function setupSegments() {
   for (let i = 0; i < threadCount.value; i++) {
     const row: ColorSegment[] = [];
     for (let j = 0; j < segmentCount.value; j++) {
-      row.push({ focus: false });
+      row.push({ focus: false, color: noColor });
     }
     segments.value.push(row);
   }

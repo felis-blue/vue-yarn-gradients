@@ -3,8 +3,8 @@
     type="button"
     class="color color-part"
     :class="{ focus: segment.focus }"
-    :style="segment.color?.hex ? `--color: ${segment.color.hex};` : ''"
-    :title="segment.color?.name"
+    :style="segment.color.hex ? `--color: ${segment.color.hex};` : ''"
+    :title="segment.color.hex ? segment.color.name : ''"
   ></button>
 </template>
 
