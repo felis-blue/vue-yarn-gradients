@@ -2,7 +2,7 @@
 
 > A website to create custom color gradient yarn swatches
 
-Find it here:
+Find it here: https://felis-blue.github.io/vue-yarn-gradients/
 
 ## Features
 
