@@ -29,13 +29,13 @@
       <ColorPattern :segments="segments" @update-downloads="updateDownloads" />
     </div>
 
-    <ActionButtons :png-url="pngUrl" :svg-url="svgUrl" />
+    <ActionButtons :png-url="pngUrl" :svg-url="svgUrl" @update-pattern="updatePattern" />
   </section>
 </template>
 
 <script setup lang="ts">
-import { noColor, type Color } from '@/data/colors';
-import { onMounted, ref, watch, type Ref } from 'vue';
+import { findColor, noColor, type Color } from '@/data/colors';
+import { nextTick, onMounted, ref, watch, type Ref } from 'vue';
 import ActionButtons from './ActionButtons.vue';
 import ColorPattern from './ColorPattern.vue';
 import ColorTemplates from './ColorTemplates.vue';
@@ -106,6 +106,86 @@ function updateDownloads(newPngUrl: string, newSvgUrl: string) {
   svgUrl.value = newSvgUrl;
 }
 
+function updatePattern(newPattern: string) {
+  // Expected pattern: <segment-count>-<thread-count>|<thread>|<thread|...
+  // where <thread> is: <number-of-segments>x<color-number>-<number-of-segments>x<color-number>-...
+  try {
+    const patternParts = newPattern.split('|');
+
+    // read segment count and thread count
+    let segmentAndThreadCount = patternParts
+      .shift()
+      ?.split('-')
+      .map((s) => parseInt(s));
+
+    // validate segment count and thread count
+    validate(
+      segmentAndThreadCount?.length === 2 && segmentAndThreadCount[0] && segmentAndThreadCount[1],
+      'First part should be <segment count>-<thread count>.',
+    );
+
+    // write segment count and thread count
+    segmentAndThreadCount = segmentAndThreadCount as number[];
+    segmentCount.value = segmentAndThreadCount[0];
+    threadCount.value = segmentAndThreadCount[1];
+
+    // validate thread pattern count
+    validate(patternParts.length === threadCount.value, 'Not enough thread patterns.');
+
+    nextTick(() => {
+      try {
+        let threadPattern: string[],
+          segment: number,
+          segmentLengthAndColor: string[],
+          segmentLength: number,
+          color: Color | undefined;
+
+        // process thread patterns
+        patternParts.forEach((threadPart, thread) => {
+          // split into segment parts
+          threadPattern = threadPart.split('-');
+          segment = 0;
+          threadPattern.forEach((segmentPart) => {
+            // split into segment length and color
+            segmentLengthAndColor = segmentPart.split('x');
+
+            // validate segment part
+            validate(
+              segmentLengthAndColor.length === 2,
+              `Invalid segment part '${segmentPart}', expected <number of segments>x<color number>.`,
+            );
+
+            // parse segment lenth and find color
+            segmentLength = parseInt(segmentLengthAndColor[0]);
+            color = findColor(segmentLengthAndColor[1]) as Color;
+
+            // validate segment length and color
+            validate(segmentLength, `Invalid segment length '${segmentLengthAndColor[0]}', should be an integer.`);
+            validate(color, `Invalid color number '${segmentLengthAndColor[1]}'.`);
+
+            // set color for all segments in this part
+            for (let i = segment; i < segment + segmentLength; i++) {
+              segments.value[thread][i].color = color;
+            }
+            segment += segmentLength;
+          });
+
+          // validate total segment length
+          validate(segment === segmentCount.value, `Not enough segments in thread ${thread}.`);
+        });
+      } catch (e) {
+        console.error(e);
+        alert(e);
+        setupSegments();
+      }
+    });
+  } catch (e) {
+    console.error(e);
+    alert(e);
+    setupSegments();
+  }
+}
+
 function toggleFocus(segment: ColorSegment, toggle?: boolean) {
   if (toggle !== undefined) {
     segment.focus = toggle;
@@ -113,6 +193,10 @@ function toggleFocus(segment: ColorSegment, toggle?: boolean) {
     segment.focus = !segment.focus;
   }
   return segment.focus;
+}
+
+function validate(expr: unknown, msg: string) {
+  if (!expr) throw new Error(`Invalid pattern: ${msg}`);
 }
 </script>
 
