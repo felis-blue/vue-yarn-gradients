@@ -34,12 +34,12 @@
         </template>
       </g>
     </svg>
-    <canvas id="pattern-canvas"></canvas>
+    <canvas id="pattern-canvas" ref="canvas" :width="width" :height="height"></canvas>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, useTemplateRef } from 'vue';
+import { computed, nextTick, useTemplateRef, watch } from 'vue';
 import type { ColorSegment } from './MainArea.vue';
 
 const props = defineProps<{
@@ -47,6 +47,7 @@ const props = defineProps<{
 }>();
 
 const svg = useTemplateRef('svg');
+const canvas = useTemplateRef('canvas');
 
 // pattern parameters
 const rowRepeats = 5;
@@ -77,7 +78,44 @@ const threadSegments = computed(() => {
   return result;
 });
 
+watch([threadSegments, () => threadSegments.value.map((group) => group.map((segment) => segment.color))], updateCanvas);
+
 function randomizeSegments(segments: ColorSegment[]) {
   return segments.slice().sort(() => 0.5 - Math.random());
 }
+
+function updateCanvas() {
+  nextTick(async () => {
+    const src = createSvgBlob();
+    const image = await loadedImgWithSource(src);
+    const context = canvas.value?.getContext('2d');
+    context?.drawImage(image, 0, 0, width, height.value);
+  });
+}
+
+function createSvgBlob() {
+  // create a blob url from the given svg
+  const svgString = new XMLSerializer().serializeToString(svg.value as Node);
+  const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+  return URL.createObjectURL(svgBlob);
+}
+
+function loadedImgWithSource(src: string): Promise<HTMLImageElement> {
+  // returns a promise that resolves to an image with the source fully loaded
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.src = src;
+  });
+}
 </script>
+
+<style scoped>
+#svg {
+  display: none;
+}
+
+#pattern-canvas {
+  width: 100%;
+}
+</style>
