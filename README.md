@@ -1,39 +1,15 @@
-# vue-yarn-colors
+# Custom Yarn Gradients
 
-This template should help get you started developing with Vue 3 in Vite.
+> A website to create custom color gradient yarn swatches
 
-## Recommended IDE Setup
+Find it here:
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Features
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+- Enter the number of segments and select the number of threads to use.
+- The color options and names are based on the TVU Ocean yarn.
+- The yarn is split into segments, each row of segments in the colorway corresponds to one thread.
+- Select and color one or multiple segments by clicking on them, then clicking on the desired color.
+- Shift-click a segment to select all segments of the same color in that row up to the selected segment.
+- Your color selection will automatically be turned into a color swatch.
+- Download the swatch as an SVG or PNG via the corresponding buttons.
