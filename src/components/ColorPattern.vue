@@ -46,6 +46,8 @@ const props = defineProps<{
   segments: ColorSegment[][];
 }>();
 
+const emit = defineEmits(['updateDownloads']);
+
 const svg = useTemplateRef('svg');
 const canvas = useTemplateRef('canvas');
 
@@ -90,6 +92,8 @@ function updateCanvas() {
     const image = await loadedImgWithSource(src);
     const context = canvas.value?.getContext('2d');
     context?.drawImage(image, 0, 0, width, height.value);
+
+    emit('updateDownloads', canvas.value?.toDataURL('image/png'), src);
   });
 }
 

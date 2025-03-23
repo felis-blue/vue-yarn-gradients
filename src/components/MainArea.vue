@@ -26,14 +26,17 @@
 
     <div class="item">
       <label for="pattern">Pattern</label>
-      <ColorPattern :segments="segments" />
+      <ColorPattern :segments="segments" @update-downloads="updateDownloads" />
     </div>
+
+    <ActionButtons :png-url="pngUrl" :svg-url="svgUrl" />
   </section>
 </template>
 
 <script setup lang="ts">
 import { type Color } from '@/data/colors';
 import { onMounted, ref, watch, type Ref } from 'vue';
+import ActionButtons from './ActionButtons.vue';
 import ColorPattern from './ColorPattern.vue';
 import ColorTemplates from './ColorTemplates.vue';
 import ColorWay from './ColorWay.vue';
@@ -48,6 +51,8 @@ export interface ColorSegment {
 const segmentCount = ref(17);
 const threadCount = ref(4);
 const segments: Ref<ColorSegment[][]> = ref([]);
+const pngUrl = ref('');
+const svgUrl = ref('');
 
 onMounted(() => {
   setupSegments();
@@ -94,6 +99,11 @@ function updateColor(color: Color) {
       }
     }
   }
+}
+
+function updateDownloads(newPngUrl: string, newSvgUrl: string) {
+  pngUrl.value = newPngUrl;
+  svgUrl.value = newSvgUrl;
 }
 
 function toggleFocus(segment: ColorSegment, toggle?: boolean) {
