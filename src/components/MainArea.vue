@@ -195,13 +195,11 @@ function updatePattern(newPattern: string) {
           validate(segment === segmentCount.value, `Not enough segments in thread ${thread}.`);
         });
       } catch (e) {
-        console.error(e);
         alert(e);
         setupSegments();
       }
     });
   } catch (e) {
-    console.error(e);
     alert(e);
     setupSegments();
   }
