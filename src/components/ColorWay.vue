@@ -15,9 +15,8 @@
 import ColorWaySegment from './ColorWaySegment.vue';
 import type { ColorSegment } from './MainArea.vue';
 
-defineProps<{
-  segments: ColorSegment[][];
-}>();
+defineProps<{ segments: ColorSegment[][] }>();
+
 const emit = defineEmits(['updateFocus']);
 
 function handleClick(event: MouseEvent, row: number, column: number) {
