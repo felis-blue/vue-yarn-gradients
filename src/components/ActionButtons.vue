@@ -2,7 +2,10 @@
   <div class="action-button-wrapper">
     <a class="action-button" :href="pngUrl" download="pattern.png">Download PNG</a>
     <a class="action-button" :href="svgUrl" download="pattern.svg">Download SVG</a>
-    <button type="button" class="action-button">Copy pattern code</button>
+    <button type="button" id="copy-button" class="action-button" @click="handleCopyPattern">
+      Copy pattern code
+      <dialog class="action-button popover" ref="popover">Copied!</dialog>
+    </button>
     <button type="button" class="action-button" @click="dialog?.showModal()">Apply pattern code</button>
   </div>
 
@@ -27,10 +30,17 @@ defineProps<{
   svgUrl: string;
 }>();
 
-defineEmits(['updatePattern']);
+const emit = defineEmits(['updatePattern', 'copyPattern']);
 
 const dialog = useTemplateRef('dialog');
 const pattern = ref('');
+const popover = useTemplateRef('popover');
+
+function handleCopyPattern() {
+  emit('copyPattern');
+  popover.value?.show();
+  setTimeout(() => popover.value?.close(), 1500);
+}
 </script>
 
 <style scoped>
@@ -57,6 +67,17 @@ const pattern = ref('');
   padding: 1.5rem;
 
   width: calc(90cqi);
+}
+
+#copy-button {
+  position: relative;
+}
+
+.popover {
+  background-color: var(--color-background);
+  border: none;
+  width: 100%;
+  inset: 0;
 }
 
 .item {

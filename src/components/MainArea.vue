@@ -29,7 +29,7 @@
       <ColorPattern :segments="segments" @update-downloads="updateDownloads" />
     </div>
 
-    <ActionButtons :png-url="pngUrl" :svg-url="svgUrl" @update-pattern="updatePattern" />
+    <ActionButtons :png-url="pngUrl" :svg-url="svgUrl" @copy-pattern="copyPattern" @update-pattern="updatePattern" />
   </section>
 </template>
 
@@ -104,6 +104,27 @@ function updateColor(color: Color) {
 function updateDownloads(newPngUrl: string, newSvgUrl: string) {
   pngUrl.value = newPngUrl;
   svgUrl.value = newSvgUrl;
+}
+
+function copyPattern() {
+  let patternCode = `${segmentCount.value}-${threadCount.value}`;
+  let streak: number, lastColor: Color, currentColor: Color;
+  for (let thread = 0; thread < threadCount.value; thread++) {
+    patternCode += '|';
+    streak = 0;
+    lastColor = segments.value[thread][0].color;
+    for (let segment = 0; segment < segmentCount.value; segment++) {
+      currentColor = segments.value[thread][segment].color;
+      if (currentColor != lastColor) {
+        patternCode += `${streak}x${lastColor.colorNumber}-`;
+        streak = 0;
+        lastColor = currentColor;
+      }
+      streak++;
+    }
+    patternCode += `${streak}x${lastColor.colorNumber}`;
+  }
+  navigator.clipboard.writeText(patternCode);
 }
 
 function updatePattern(newPattern: string) {
